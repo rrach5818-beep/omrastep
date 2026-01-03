@@ -479,7 +479,7 @@ const InvoiceModal = ({ isOpen, onClose, details, values }: any) => {
   );
 };
 
-const OmraBudgetSimulator = ({ onNavigateSales }: BudgetProps) => {
+const OmraBudgetSimulator = ({ onNavigateSales: _onNavigateSales }: BudgetProps) => {
   const [activePreset, setActivePreset] = useState<'eco' | 'standard' | 'confort' | 'custom'>('standard');
   const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
   const [values, setValues] = useState<BudgetState>({
@@ -497,11 +497,6 @@ const OmraBudgetSimulator = ({ onNavigateSales }: BudgetProps) => {
     transportTotal: 0, shoppingTotal: 0, bufferTotal: 0, grandTotal: 0, perPerson: 0
   });
   const [showDetails, setShowDetails] = useState(false);
-
-  // FIX: On "utilise" explicitement la variable ici pour empêcher l'erreur TypeScript,
-  // au cas où le bouton qui l'utilise plus bas serait accidentellement supprimé.
-  // Cela rend le build Vercel 100% sûr.
-  React.useEffect(() => { void onNavigateSales; }, [onNavigateSales]);
 
   useEffect(() => {
     const flightTotal = values.flightPrice * values.travelers;
@@ -651,11 +646,11 @@ const OmraBudgetSimulator = ({ onNavigateSales }: BudgetProps) => {
             </div>
           )}
 
-          <div onClick={onNavigateSales} className="mt-6 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-[32px] p-8 text-center relative overflow-hidden group hover:border-amber-300 transition-all cursor-pointer shadow-sm hover:shadow-md">
+          <div onClick={_onNavigateSales} className="mt-6 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-[32px] p-8 text-center relative overflow-hidden group hover:border-amber-300 transition-all cursor-pointer shadow-sm hover:shadow-md">
             <div className="absolute -right-4 -top-4 p-4 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:rotate-12 duration-500"><Sparkles size={80} className="text-amber-600" /></div>
             <p className="text-amber-900 font-bold text-lg mb-2 relative z-10 text-center font-black">Trouver ce vol à {values.flightPrice}€ ?</p>
             <p className="text-amber-800/80 text-sm mb-6 relative z-10 leading-relaxed max-w-xs mx-auto text-center">On vous montre exactement comment faire dans la formation vidéo.</p>
-            <button onClick={(e) => { e.stopPropagation(); onNavigateSales(); }} className="mx-auto flex items-center justify-center gap-2 text-white bg-amber-600 px-6 py-3 rounded-full text-sm font-bold shadow-lg shadow-amber-600/20 group-hover:bg-amber-700 transition-all transform group-hover:scale-105 relative z-10 uppercase tracking-tighter">Voir la méthode complète <ChevronRight size={16}/></button>
+            <button onClick={(e) => { e.stopPropagation(); _onNavigateSales(); }} className="mx-auto flex items-center justify-center gap-2 text-white bg-amber-600 px-6 py-3 rounded-full text-sm font-bold shadow-lg shadow-amber-600/20 group-hover:bg-amber-700 transition-all transform group-hover:scale-105 relative z-10 uppercase tracking-tighter">Voir la méthode complète <ChevronRight size={16}/></button>
           </div>
         </div>
       </div>
@@ -695,7 +690,7 @@ const Footer = ({ onNavigate, onOpenLegal }: { onNavigate: (page: PageType) => v
       <svg viewBox="0 0 24 18" className="h-full w-auto" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#FF5F00" d="M13.9 9A7.9 7.9 0 0 1 10 16.9a7.9 7.9 0 1 1 3.9-7.9Z"/><path fill="#EB001B" d="M14 9a7.9 7.9 0 0 0-3.9-7.9A7.9 7.9 0 0 0 14 9Z"/><path fill="#F79E1B" d="M14 9a7.9 7.9 0 0 1-3.9 7.9A7.9 7.9 0 0 1 14 9Z"/></svg>
     ),
     ApplePay: () => (
-      <svg viewBox="0 0 38 16" className="h-full w-auto text-slate-900" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5.8 6.4c0-1.7 1.4-3.1 3-3.1.5 0 1 .1 1.4.3l.5-1.4c-.6-.3-1.2-.4-1.9-.4C5.7 1.8 3.5 4 3.5 7.1c0 2.4 1.7 4.5 4.1 4.5 1.1 0 2.1-.4 2.9-1.2l-.9-1.2c-.5.5-1.2.8-2 .8-1.5 0-1.8-1.2-1.8-2.6m10.1-4.5c-2.8 0-4.1 1.5-4.1 1.5l.5 1.3s1.2-1.3 3.3-1.3c1.7 0 2.3.8 2.3 2.1v.2h-1.6c-2.9 0-4.8 1.4-4.8 3.5 0 2 1.7 3.4 3.9 3.4 1.5 0 2.5-.7 2.9-1.4v1.3h2.3V5.5c0-2.4-1.8-3.6-4.7-3.6m.2 7.7c-.8 0-1.9-.4-1.9-1.7 0-1.2 1.2-1.9 3.1-1.9h1.1v.6c0 2-1.2 3-2.3 3m10.1-3.3c0-2.5-1.9-4.5-5.1-4.5-1.3 0-2.4.3-3.1.7l.6 1.5c.7-.4 1.5-.7 2.6-.7 2.1 0 2.8 1.2 2.8 2.5v.1h-1.8c-2.9 0-4.8 1.4-4.8 3.5 0 2 1.7 3.4 3.9 3.4 1.5 0 2.5-.7 2.9-1.4v1.3h2.2V6.3zm-.1 3.3c-.6.6-1.5 1-2.3 1-1.2 0-2.2-.8-2.2-2.1 0-1.3 1.1-1.9 3.1-1.9h1.5v3m6.9-7.7L31 8.9l-2-6.9h-2.5l3.2 10-1.3 3.8h2.4l4.7-13.9h-2.5z"/></svg>
+      <svg viewBox="0 0 38 16" className="h-full w-auto text-slate-900" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5.8 6.4c0-1.7 1.4-3.1 3-3.1.5 0 1 .1 1.4.3l.5-1.4c-.6-.3-1.2-.4-1.9-.4C5.7 1.8 3.5 4 3.5 7.1c0 2.4 1.7 4.5 4.1 4.5 1.1 0 2.1-.4 2.9-1.2l-.9-1.2c-.5.5-1.2.8-2 .8-1.5 0-1.8-1.2-1.8-2.6m10.1-4.5c-2.8 0-4.1 1.5-4.1 1.5l.5 1.3s1.2-1.3 3.3-1.3c1.7 0 2.3.8 2.3 2.1v.2h-1.6c-2.9 0-4.8 1.4-4.8 3.5 0 2 1.7 3.4 3.9 3.4 1.5 0 2.5-.7 2.9-1.4v1.3h2.2V6.3zm-.1 3.3c-.6.6-1.5 1-2.3 1-1.2 0-2.2-.8-2.2-2.1 0-1.3 1.1-1.9 3.1-1.9h1.5v3m6.9-7.7L31 8.9l-2-6.9h-2.5l3.2 10-1.3 3.8h2.4l4.7-13.9h-2.5z"/></svg>
     ),
     Stripe: () => (
        <svg viewBox="0 0 32 14" className="h-full w-auto text-slate-900" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 6.5h-1.8c-.5 0-.7-.2-.7-.6s.3-.6.8-.6c.6 0 1.1.2 1.6.5l.5-1.1A6.6 6.6 0 0 0 10 4.1C8.2 4.1 7 5 7 6.6c0 1.9 1.6 2.4 2.9 2.7 1 .2 1.3.5 1.3.9 0 .5-.4.8-1 .8-1 0-1.9-.5-2.5-1l-.6 1.2c.7.6 1.9 1 3.1 1 1.9 0 3.2-1 3.2-2.7 0-1.9-1.6-2.5-3-2.8-.8-.2-1.1-.4-1.1-.8 0-.4.3-.6.9-.6.6 0 1.2.2 1.6.5l.2.7zm3.8-1.3c0 .6-.5.9-1.2.9V12h2.2v-4c0-1.5 1-2 1.8-2h.2V4.2h-.5c-.8 0-1.5.4-1.9 1l-.1-.8h-2.1v7.6h2.2V7.1c0-.5.3-.8.6-.8-.5-.5-1.1-.7-1.2-1.1zm-3.5 4.6l-1.6-.4V4.4h1.6v5.4zM10.8 1.9a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm20.8 2.6c-.6 0-1 .2-1.4.6V4.4H28v9.9h-2.2V11c-.4.7-1 .9-1.7.9-1.6 0-2.7-1.3-2.7-3.6 0-2.1 1-3.6 2.7-3.6.7 0 1.3.3 1.7 1l.1-.9h2.1v2.5h2.1v.9zm-2.2 2.8c0-1.2-.5-1.9-1.4-1.9-.9 0-1.5.7-1.5 1.9 0 1.3.6 2 1.5 2 1 0 1.4-.8 1.4-2zm-6.8-1c.1-1.1.8-1.7 1.9-1.7 1.2 0 1.8.7 1.9 1.7h-3.8zm1.9 3.6c-1.7 0-2.8-1.2-2.8-3.4 0-2.3 1.2-3.6 3-3.6 1.7 0 2.8 1.4 2.8 3.5v.4h-5.8c.1 1.2.8 1.9 2.1 1.9.9 0 1.6-.3 2.1-.8l.6 1c-.7.7-1.7 1-2 .9z"/></svg>
