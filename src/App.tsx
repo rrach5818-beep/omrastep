@@ -498,11 +498,6 @@ const OmraBudgetSimulator = ({ onNavigateSales }: BudgetProps) => {
   });
   const [showDetails, setShowDetails] = useState(false);
 
-  // FIX: On "utilise" explicitement la variable ici pour empêcher l'erreur TypeScript,
-  // au cas où le bouton qui l'utilise plus bas serait accidentellement supprimé.
-  // Cela rend le build Vercel 100% sûr.
-  const _ignore = onNavigateSales;
-
   useEffect(() => {
     const flightTotal = values.flightPrice * values.travelers;
     const visaTotal = VISA_COST * values.travelers;
@@ -818,6 +813,284 @@ const Footer = ({ onNavigate, onOpenLegal }: { onNavigate: (page: PageType) => v
         </div>
       </div>
     </footer>
+  );
+};
+
+// ==========================================
+// 6. PAGES (DÉFINIES APRÈS LES COMPOSANTS)
+// ==========================================
+
+const SalesPage = ({ onBack }: { onBack: () => void }) => {
+  const handleBuy = () => alert("REDIRECTION VERS LE PAIEMENT (STRIPE)...");
+  
+  const modules = [
+    { 
+      num: "1", val: "49€", 
+      title: "La Stratégie & Le Budget", 
+      points: [
+        { t: "Le Secret des Vols", d: "Comment j'utilise des comparateurs de vols pour trouver des billets à -30% (Tuto écran)." },
+        { t: "Hacking Hôtels", d: "Ma liste privée des 5 hôtels 'pépites' (propres, proches, pas chers) que les agences gardent pour elles." },
+        { t: "L'Argus Secret des Prix", d: "La liste confidentielle des VRAIS prix locaux (Taxis, Repas, Cadeaux) pour diviser vos dépenses sur place par deux." }
+      ],
+      icon: RotateCcw
+    },
+    { 
+      num: "2", val: "39€", 
+      title: "Administratif Zéro Stress", 
+      points: [
+        { t: "Tuto Visa Pas-à-Pas", d: "Je filme mon écran et je remplis la demande avec vous. Impossible de se tromper." },
+        { t: "La Rawda (Le Jardin du Paradis)", d: "L'astuce méconnue pour réserver son créneau sur l'appli Nusuk sans voir le message 'Complet'." }
+      ],
+      icon: FileText
+    },
+    { 
+      num: "3", numLabel: "CŒUR DU PRODUIT", val: "29€", 
+      title: "Les Rites Simplifiés", 
+      points: [
+        { t: "Le Guide de Poche 'Tawaf & Sa'y'", d: "Un livret PDF à imprimer. Il vous dit quoi dire, tour par tour. Plus de trous de mémoire." },
+        { t: "Les 'Tueurs de Omra'", d: "Les 3 erreurs fatales qui annulent vos rites (et comment les éviter à tout prix)." }
+      ],
+      icon: Crown
+    },
+    { 
+      num: "4", val: "19€", 
+      title: "Vie Pratique sur Place", 
+      points: [
+        { t: "Internet & Téléphone", d: "Quelle carte SIM acheter pour ne pas se faire arnaquer à l'aéroport ?" },
+        { t: "Transports Makkah-Médine", d: "Tuto complet pour réserver le TGV Haramain en 5 minutes." },
+        { t: "Le Tableau de Bord Financier", d: "Bien plus qu'un simulateur : l'outil pour piloter vos dépenses réelles sur place." }
+      ],
+      icon: Backpack
+    }
+  ];
+
+  const faq = [
+    { q: "Est-ce que c'est une formation religieuse ?", a: "Non. C'est un guide pratique et logistique. Pour les fatwas complexes, consultez un savant. Pour savoir comment prendre le TGV ou ne pas rater son visa, c'est ici." },
+    { q: "Sous quel format est la formation ?", a: "C'est un espace membre en ligne accessible immédiatement. Vidéos courtes + Fiches PDF téléchargeables." },
+    { q: "Et si je pars en famille ?", a: "C'est encore mieux. Une seule formation suffit pour organiser le voyage de toute la famille (et multiplier les économies)." }
+  ];
+
+  return (
+    <div className="animate-in fade-in slide-in-from-bottom-8 duration-500 min-h-screen bg-[#FAF7F2] pb-20 font-sans">
+      
+      {/* MOTIF ARRIERE PLAN (SUBTIL) */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l2.121 2.121L30 4.243l-2.121-2.122L30 0zM0 30l2.121 2.121L4.243 30 2.121 27.879 0 30zm30 30l2.121-2.121L30 55.757l-2.121 2.122L30 60zm30-30l-2.121-2.121L55.757 30l2.122 2.121L60 30z' fill='%23E3A159' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")` }}></div>
+
+      {/* HERO SECTION */}
+      <div className="bg-slate-900 text-white py-20 px-4 text-center relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -ml-10 -mb-10"></div>
+        
+        <button onClick={onBack} className="absolute top-6 left-4 md:left-8 text-slate-400 hover:text-white flex items-center text-sm transition-colors z-20 font-bold bg-white/5 px-4 py-2 rounded-full border border-white/10 hover:bg-white/10">
+          <ArrowRight className="w-4 h-4 mr-1 rotate-180" /> Retour accueil
+        </button>
+
+        <div className="max-w-4xl mx-auto relative z-10 pt-8">
+          <Badge color="amber">Offre de Lancement Limitée</Badge>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
+            Ne laissez pas le stress gâcher <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">votre voyage spirituel</span>.
+          </h1>
+          <h2 className="text-xl md:text-2xl font-bold text-slate-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+            La méthode complète pour économiser jusqu'à <span className="text-white">1000€ par personne</span> et accomplir vos rites avec la certitude qu'ils sont valides.
+          </h2>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button variant="primary" size="large" onClick={handleBuy} icon={ArrowRight}>
+              Accéder à la formation immédiatement
+            </Button>
+          </div>
+          <p className="mt-4 text-xs text-slate-500 flex items-center justify-center gap-2">
+            <Lock className="w-3 h-3" /> Accès à vie • Paiement Sécurisé • Satisfait ou Remboursé 14j
+          </p>
+        </div>
+      </div>
+
+      {/* SECTION 1 : L'IDENTIFICATION (CLAIR) */}
+      <Section>
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-black text-slate-900 mb-4">Vous avez pris la décision de partir. C'est magnifique.</h2>
+          <p className="text-slate-600 mt-4 text-lg italic">Mais maintenant que l'euphorie est passée, les questions logistiques vous assaillent :</p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          {[
+            "Est-ce que je vais réussir à obtenir mon visa tout seul ?",
+            "Comment être sûr que mon hôtel n'est pas en haut d'une colline impossible ?",
+            "Et si je me trompe pendant le Tawaf ? Si j'oublie une invocation ?",
+            "Les agences me demandent 2500€... Je n'ai pas ce budget."
+          ].map((text, i) => (
+            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+              <div className="bg-red-50 text-red-500 p-2 rounded-lg shrink-0"><X size={20}/></div>
+              <p className="text-slate-700 font-medium">"{text}"</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-slate-900 text-white p-8 rounded-[32px] text-center relative overflow-hidden shadow-2xl">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 to-amber-600"></div>
+          <p className="text-xl md:text-2xl text-slate-200 leading-relaxed font-serif relative z-10 max-w-4xl mx-auto">
+            Vous avez passé des heures sur des groupes Facebook contradictoires. Résultat ? Vous êtes encore plus perdu qu'avant.<br/><br/>
+            <strong className="text-white text-3xl font-sans not-italic block mt-4 mb-2">La vérité ?</strong>
+            Organiser sa Omra seul n'est pas difficile... <span className="text-amber-400 font-black uppercase underline decoration-4 decoration-amber-400/30 underline-offset-4">SI</span> on a la bonne feuille de route.
+          </p>
+        </div>
+      </Section>
+
+      {/* SECTION 2 : LA SOLUTION (CLAIR) */}
+      <div className="bg-white border-y border-slate-200 py-20 relative z-10 shadow-sm">
+        <Section>
+          <div className="text-center mb-12">
+            <span className="text-amber-600 font-black tracking-widest uppercase text-sm bg-amber-50 px-3 py-1 rounded-full border border-amber-100">Le Plan d'Action</span>
+            <h2 className="text-4xl font-black text-slate-900 mt-6 tracking-tight">La Méthode OmraStep DIY™</h2>
+            <p className="text-slate-500 mt-6 text-xl font-bold">Votre guide de survie numérique pour une Omra en autonomie réussie.</p>
+          </div>
+          
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="bg-[#FAF7F2] p-8 rounded-3xl border-2 border-dashed border-amber-200 relative">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-amber-100 text-amber-800 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Philosophie</div>
+              <p className="text-lg text-slate-700 font-medium leading-relaxed">
+                "Ce n'est pas un cours de théologie théorique. C'est un <strong>plan d'action logistique et pratique</strong>. Je vous prends par la main, de l'écran de votre ordinateur pour réserver le vol, jusqu'à la sortie du coiffeur à la Mecque."
+              </p>
+            </div>
+          </div>
+        </Section>
+      </div>
+
+      {/* SECTION 3 : LES MODULES (SOMBRE PREMIUM - COMME DEMANDÉ) */}
+      <div className="bg-slate-900 py-20 text-white">
+        <Section>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-black text-white uppercase tracking-tight">Ce que vous allez recevoir</h2>
+          </div>
+
+          <div className="space-y-8">
+            {modules.map((mod, i) => (
+              <div key={i} className={`bg-slate-800 rounded-3xl border-2 transition-all p-6 md:p-10 ${mod.numLabel ? 'border-amber-500 shadow-xl ring-4 ring-amber-500/20 scale-[1.02]' : 'border-slate-700 shadow-sm'}`}>
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl ${mod.numLabel ? 'bg-amber-500 text-slate-900' : 'bg-slate-900 text-white border border-slate-700'}`}>
+                      {mod.num}
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-black text-white">Module {mod.num} : {mod.title}</h3>
+                  </div>
+                  <div className="bg-slate-900 px-4 py-2 rounded-full text-slate-400 font-bold text-sm border border-slate-700">
+                    Valeur <span className="line-through decoration-2 decoration-[#E3A159]">{mod.val}</span>
+                  </div>
+                </div>
+                <ul className="space-y-6">
+                  {mod.points.map((p, pi) => (
+                    <li key={pi} className="flex items-start gap-4">
+                      <div className="p-1 bg-emerald-500/10 text-emerald-500 rounded-full mt-1"><CheckCircle2 size={18}/></div>
+                      <div>
+                        <strong className="text-white block">{p.t}</strong>
+                        <p className="text-slate-400 text-sm">{p.d}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </Section>
+      </div>
+
+      {/* SECTION 4 : LES BONUS (CLAIR) */}
+      <div className="py-16 bg-white border-t border-slate-100 relative">
+        <Section>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-black uppercase italic underline underline-offset-8 decoration-amber-500 text-slate-900">Et ce n'est pas tout...</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-slate-50 p-8 rounded-3xl border-2 border-slate-100 shadow-sm hover:border-amber-200 transition-colors">
+              <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-black uppercase mb-4 inline-block">Bonus #1</span>
+              <h3 className="text-xl font-bold mb-2 flex items-center gap-2 text-slate-900"><ShoppingBag size={24}/> La Valise de l'Expert</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">La liste Amazon directe des objets qui changent la vie (chaussettes de tawaf, ceinture ihram spécifique). Ne perdez pas 2h à Décathlon.</p>
+            </div>
+            <div className="bg-slate-50 p-8 rounded-3xl border-2 border-slate-100 shadow-sm hover:border-amber-200 transition-colors">
+              <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-black uppercase mb-4 inline-block">Bonus #2</span>
+              <h3 className="text-xl font-bold mb-2 flex items-center gap-2 text-slate-900"><PlayCircle size={24}/> Les Audios "Douas"</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">Des fichiers MP3 à mettre dans vos écouteurs dans l'avion pour apprendre les invocations sans effort pendant le trajet.</p>
+            </div>
+          </div>
+        </Section>
+      </div>
+
+      {/* SECTION 5 : L'OFFRE IRRÉSISTIBLE - CLAIR */}
+      <Section className="text-center">
+        <div className="max-w-2xl mx-auto space-y-8">
+          <div className="space-y-4 text-slate-500">
+            <p>Si vous deviez passer par une agence, cela vous coûterait 500€ à 1000€ de frais de dossier.</p>
+            <p>Si vous deviez tout chercher seul, cela vous prendrait 40 heures de recherches risquées.</p>
+          </div>
+          
+          <div className="p-1 bg-gradient-to-br from-amber-400 to-amber-600 rounded-[40px] shadow-2xl transform hover:scale-[1.02] transition-transform duration-300">
+            <div className="bg-white rounded-[38px] p-10 md:p-16 text-center relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-amber-300 to-amber-600"></div>
+              
+              <h3 className="text-slate-400 font-bold uppercase tracking-[0.2em] text-sm mb-8">Lancement OmraStep DIY</h3>
+              
+              <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-10">
+                <div className="text-center opacity-50 grayscale">
+                  <span className="block text-sm font-bold text-slate-500 mb-1">Valeur Totale</span>
+                  <span className="text-4xl text-slate-400 line-through decoration-2 decoration-slate-300 font-bold">149€</span>
+                </div>
+                <div className="hidden md:block w-px h-16 bg-slate-100"></div>
+                <div className="text-center">
+                  <span className="block text-sm font-bold text-emerald-600 mb-1 uppercase tracking-wider">Prix de lancement</span>
+                  <span className="text-8xl font-black text-slate-900 tracking-tighter tabular-nums">29€</span>
+                </div>
+              </div>
+
+              <div className="bg-[#FAF7F2] p-6 rounded-2xl mb-10 border border-slate-100 max-w-lg mx-auto">
+                <p className="text-slate-700 font-medium text-lg">
+                  C'est moins cher qu'un seul repas pour deux à Makkah.<br/>
+                  <strong className="text-amber-600 block mt-2">Pour le prix d'un burger, vous sécurisez le voyage de votre vie.</strong>
+                </p>
+              </div>
+
+              <Button variant="primary" size="large" className="w-full mb-6 py-6 text-xl shadow-amber-500/40" onClick={handleBuy}>
+                JE COMMENCE MON VOYAGE MAINTENANT
+              </Button>
+              <div className="flex flex-wrap justify-center gap-6 text-xs text-slate-400 font-bold uppercase tracking-wide">
+                <span className="flex items-center gap-1.5"><ShieldCheck size={16} className="text-emerald-500"/> Satisfait ou remboursé</span>
+                <span className="flex items-center gap-1.5"><Lock size={16} className="text-emerald-500"/> Paiement Sécurisé</span>
+                <span className="flex items-center gap-1.5"><Check size={16} className="text-emerald-500"/> Accès Immédiat</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* SECTION 6 : GARANTIE & FAQ - CLAIR */}
+      <div className="bg-white border-t border-slate-100 py-20 relative z-10">
+        <Section>
+          <div className="grid md:grid-cols-2 gap-16">
+            <div>
+              <div className="p-8 border-2 border-amber-500/30 rounded-3xl bg-amber-500/5">
+                <ShieldCheck size={48} className="text-amber-500 mb-6"/>
+                <h3 className="text-2xl font-bold mb-4 text-slate-900">Garantie "Sérénité Totale"</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Téléchargez la méthode. Regardez les tutos. Si vous ne trouvez pas au moins une astuce qui vous fait économiser 10x le prix de cette formation (soit 290€), envoyez un simple email et je vous rembourse. Sans question.
+                </p>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-2xl font-black mb-8 flex items-center gap-3 text-slate-900"><HelpCircle className="text-amber-500"/> Questions Fréquentes</h3>
+              <div className="space-y-6">
+                {faq.map((item, i) => (
+                  <div key={i} className="border-b border-slate-100 pb-6">
+                    <h4 className="font-bold text-lg mb-2 text-slate-800">"{item.q}"</h4>
+                    <p className="text-slate-500 leading-relaxed text-sm">{item.a}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Section>
+      </div>
+
+      <Footer onNavigate={onBack} onOpenLegal={() => {}} />
+    </div>
   );
 };
 
