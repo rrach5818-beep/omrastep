@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { 
   CheckCircle2, Plane, Calendar, Map, FileText, Heart, 
   Download, Menu, X, ChevronRight, ShieldCheck, Share2, 
-  Lock, Star, AlertTriangle, Users, ArrowRight, PlayCircle,
+  Lock, Star, Users, ArrowRight, PlayCircle, // AlertTriangle supprimé (inutilisé)
   Hotel, Utensils, CreditCard, ShoppingBag, Info, Backpack, 
   Scale, Crown, Sparkles, ChevronDown, ChevronUp, TrainFront, 
-  Coins, Printer, RotateCcw, HelpCircle, Check, Mail, Globe, MapPin, Send, Quote
+  Coins, Printer, RotateCcw, HelpCircle, Check, Mail, Globe, MapPin, Send, Quote,
+  MessageCircle // Ajout de MessageCircle à la place de MessageBubble
 } from 'lucide-react';
 
 // --- CONSTANTES ---
@@ -89,7 +90,7 @@ const Badge = ({ children, color = 'amber' }: any) => {
 };
 
 // ==========================================
-// 2. COMPOSANTS MANQUANTS (CORRECTION)
+// 2. COMPOSANTS DE PAGE & MODALES
 // ==========================================
 
 const LegalModal = ({ isOpen, type, onClose }: { isOpen: boolean; type: LegalType; onClose: () => void }) => {
@@ -191,7 +192,7 @@ const ContactPage = () => {
             </div>
           </div>
           <div className="bg-white p-6 rounded-2xl border border-slate-100 flex items-center gap-4">
-            <div className="bg-emerald-50 text-emerald-600 p-3 rounded-xl"><MessageBubble size={24}/></div>
+            <div className="bg-emerald-50 text-emerald-600 p-3 rounded-xl"><MessageCircle size={24}/></div>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase">WhatsApp</p>
               <p className="text-slate-900 font-medium">+33 7 00 00 00 00</p>
